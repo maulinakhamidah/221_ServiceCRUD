@@ -1,7 +1,12 @@
 
 
+// PUT (Update Data)
+app.put('/biodata/:id', (req, res) => {
+    const { id } = req.params;
+    const { nama, nim, kelas } = req.body;
+
     pool.query(
-        'INSERT INTO biodata (id, nama, nim, kelas) VALUES ($1,$2,$3,$4) RETURNING *',
-        [id, nama, nim, kelas]
+        'UPDATE biodata SET nama=$1, nim=$2, kelas=$3 WHERE id=$4 RETURNING *',
+        [nama, nim, kelas, id]
     )
-       
+        
