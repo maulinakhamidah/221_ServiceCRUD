@@ -1,14 +1,13 @@
 
+// POST (Tambah Data)
+app.post('/biodata', (req, res) => {
+    const { id, nama, nim, kelas } = req.body;
 
-// GET ALL
-app.get('/', (req, res) => {
-    console.log("TEST DATA :");
+    pool.query(
+        'INSERT INTO biodata (id, nama, nim, kelas) VALUES ($1,$2,$3,$4) RETURNING *',
+        [id, nama, nim, kelas]
+    )
+        .then(result => res.json(result.rows[0]))
+        .catch(err => console.error(err));
+});
 
-    pool.query('SELECT * FROM biodata ORDER BY id')
-        .then(result => {
-            res.send(result.rows);
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).send('Internal Server Error');
-        });
